@@ -6,6 +6,9 @@ export default function Authenticate({ token }) {
 
     async function handleClick() {
         try {
+            if(!token) {
+                throw new error("You didnt sign in")
+            }
             const response = await fetch ("https://fsa-jwt-practice.herokuapp.com/authenticate", {
                 method: "GET",
                 headers: {
@@ -13,8 +16,8 @@ export default function Authenticate({ token }) {
                 Authorization: `Bearer ${token}`
             }
             });
-            const results = await response.json()
-            setSuccessMessage(results.message);
+            const result = await response.json()
+            setSuccessMessage(`${result.message} Welcome ${result.data.username.username}`);
 
 
         } catch (error) {
